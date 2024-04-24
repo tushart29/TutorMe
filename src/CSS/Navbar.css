@@ -1,0 +1,61 @@
+/* Navbar.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+:root {
+    --primary: #bc4123;
+    --secondary: #2b3452;
+}
+
+.navbar {
+    background-color: var(--secondary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    font-family: "Poppins", sans-serif;
+    color: #fff;
+}
+
+.navbar h1 {
+    margin: 0;
+    padding: 0;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    margin-right: auto;
+}
+
+.navbar a {
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.navbar a.active {
+    background: var(--primary);
+}
+
+.navbar button {
+    border: 0;
+    padding: 6px 12px;
+    border-radius: 4px;
+    color: white;
+    background: var(--secondary);
+    /* Button background matches Navbar secondary color */
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+    /* Ensure button text font matches */
+    margin-left: 10px;
+    font-size: 16px;
+    /* Increased font size */
+}
+
+.navbar button:hover {
+    background: #a2310b;
+    /* Change background on hover */
+}
+
+.navbar button:active {
+    background: var(--primary);
+    /* Change background when button is clicked */
+}

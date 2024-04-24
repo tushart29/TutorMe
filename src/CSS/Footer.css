@@ -1,0 +1,49 @@
+/* Footer.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+:root {
+    --primary: #bc4123;
+    --secondary: #2b3452;
+}
+
+
+
+
+
+.footer p {
+    margin: 0;
+}
+
+/* Footer.css */
+
+/* Footer.css */
+
+/* Import font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+/* Define custom colors */
+:root {
+    --primary: #bc4123;
+    --secondary: #2b3452;
+}
+
+/* Footer styles */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #2b3452;
+    color: #fff;
+    padding: 10px;
+    /* Reduced padding */
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+    /* Apply custom font */
+    font-size: 14px;
+    /* Adjust font size */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
