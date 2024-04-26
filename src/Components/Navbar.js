@@ -16,10 +16,11 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
     return (
         <nav className="navbar">
             <h1>Tutor Me</h1>
-            <NavLink to='/' end activeClassName="active">Home</NavLink>
-            <NavLink to='/about' activeClassName="active">About</NavLink>
-            <NavLink to='/contact' activeClassName="active">Help</NavLink>
-            <NavLink to='/tutors' activeClassName="active">Tutors</NavLink>
+            <NavLink to='/' end >Home</NavLink>
+            <NavLink to='/about' >About</NavLink>
+            <NavLink to='/profile' >Profile</NavLink>
+            <NavLink to='/contact' >Help</NavLink>
+            <NavLink to='/tutors' >Tutors</NavLink>
             {isLoggedIn ? (
                 <button onClick={handleSignOut} className="sign-out-button">Sign Out</button>
             ) : (

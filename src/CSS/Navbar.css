@@ -1,5 +1,4 @@
 /* Navbar.css */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
 :root {
     --primary: #bc4123;
@@ -14,6 +13,8 @@
     padding: 20px;
     font-family: "Poppins", sans-serif;
     color: #fff;
+    margin-bottom: 50px;
+
 }
 
 .navbar h1 {
@@ -43,7 +44,7 @@
     background: var(--secondary);
     /* Button background matches Navbar secondary color */
     cursor: pointer;
-    font-family: "Poppins", sans-serif;
+    font-family: sans-serif;
     /* Ensure button text font matches */
     margin-left: 10px;
     font-size: 16px;

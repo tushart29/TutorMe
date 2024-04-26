@@ -3,27 +3,7 @@ import { Link } from "react-router-dom";
 import '../CSS/Tutors.css';
 
 export default function Tutors() {
-    const tutors = [
-        {
-            name: "John Doe",
-            major: "CSS",
-            email: "john.doe@example.com",
-            payRate: 20
-        },
-        {
-            name: "John Doe",
-            major: "CSS",
-            email: "john.doe@example.com",
-            payRate: 20
-        },
-        {
-            name: "John Doe",
-            major: "CSS",
-            email: "john.doe@example.com",
-            payRate: 20
-        }
-        // Add more tutor objects as needed
-    ];
+
 
     return (
         <div>
@@ -40,7 +20,7 @@ export default function Tutors() {
                         </tr>
                     </thead>
                     <tbody>
-                        {tutors.map((tutor, index) => (
+                        {/* {tutors.map((tutor, index) => (
                             <tr key={index}>
                                 <td>{tutor.name}</td>
                                 <td>{tutor.major}</td>
@@ -50,7 +30,14 @@ export default function Tutors() {
                                     <Link to="/contact">Message</Link>
                                 </td>
                             </tr>
-                        ))}
+                        ))} */}
+                        <td>Tushar</td>
+                        <td>Computer Science</td>
+                        <td>tusha@gmail.com</td>
+                        <td>20</td>
+                        <td>
+                            <Link to="/contact">Message</Link>
+                        </td>
                     </tbody>
                 </table>
             </div>

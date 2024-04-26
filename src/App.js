@@ -13,7 +13,7 @@ import NotFound from './Pages/Notfound';
 import Home from './Pages/Home'
 import Contact from './Pages/Contact';
 import Tutors from './Pages/Tutors';
-
+import Profile, { profileInAction } from './Pages/Profile';
 
 
 
@@ -32,6 +32,7 @@ function App() {
         <Route path="signup" element={<Signup />} action={signUpAction(setIsLoggedIn)} />
         <Route path="signin" element={<Signin />} action={signInAction(setIsLoggedIn)} />
         <Route path="contact" element={<Contact />} />
+        <Route path="profile" element={<Profile />} action={profileInAction} />
         <Route path='*' element={<NotFound />} />
       </Route>
     )
