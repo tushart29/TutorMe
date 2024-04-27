@@ -1,76 +1,89 @@
 /* Tutors.css */
 
-.container {
-    margin: 0 auto;
-    max-width: 1000px;
-    /* Adjust max-width for more space on the sides */
-    padding: 8px;
-}
-
+/* General styling */
 .tutors-heading {
-    /* Target only h1 element within the Tutors component */
     text-align: center;
-    padding: 20px 0;
-    color: var(--primary);
-    /* Use primary color for heading */
-    border-bottom: 3px solid var(--primary);
-    text-decoration: none;
-    /* Remove underline */
+    margin-bottom: 20px;
+    color: #a5341e;
+    /* Header text color */
 }
 
-.tutor-table {
-    margin-top: 20px;
-    overflow-x: auto;
-    /* Enable horizontal scrolling for small screens */
+.tutor-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
+    /* Set to display three columns */
+    gap: 20px;
+    padding: 20px;
+    padding-bottom: 60px;
+    /* Add padding around the grid */
 }
 
-.tutor-table table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: "Poppins", sans-serif;
-    /* Use Poppins font */
-    border: 1px solid #ddd;
-    /* Apply border style */
+.tutor-card {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #2b3452;
+    /* Card background color */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.tutor-table th,
-.tutor-table td {
-    padding: 8px;
-    text-align: center;
-    /* Align text center */
-}
-
-.tutor-table th {
-    background-color: var(--secondary);
-    /* Use secondary color for table header background */
+.tutor-card h2,
+.tutor-card p {
     color: #fff;
-    /* Text color for table header */
+    /* Text color */
 }
 
-.tutor-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.tutor-table tr:hover {
-    background-color: #ddd;
-    /* Highlight on hover with gray color */
-}
-
-.tutor-table a {
+.tutor-card a {
+    color: #1976d2;
+    /* Link color */
     text-decoration: none;
-    color: var(--primary);
-    /* Use primary color for link */
-    transition: color 0.3s;
-    /* Smooth transition for color change */
 }
 
-.tutor-table a:hover {
-    color: var(--secondary);
-    /* Change link color on hover */
+.tutor-card a:hover {
+    text-decoration: underline;
+    color: #bc4123;
+    /* Hover link color */
 }
 
-.tutor-table a:active,
-.tutor-table a:focus {
-    color: var(--secondary);
-    /* Change link color to orange when clicked or focused */
+/* Search bar and filter dropdown */
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    /* Align items to the right */
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    padding: 10px;
+    font-size: medium;
+    /* Set font size to medium */
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    /* Make it rounded */
+    margin-left: 20px;
+    /* Add margin to separate from the filter dropdown */
+    margin-right: 20px;
+    /* Add margin to move it further to the right */
+    width: 250px;
+    /* Adjust width as needed */
+}
+
+
+.filter-dropdown {
+    padding: 10px;
+    font-size: medium;
+    /* Set font size to medium */
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    /* Make it rounded */
+    margin-left: 10px;
+    /* Add margin to separate from the search bar */
+    background-color: #fff;
+    appearance: none;
+    /* Remove default dropdown arrow */
+    cursor: pointer;
+}
+
+.filter-dropdown:focus {
+    outline: none;
 }
