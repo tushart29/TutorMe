@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import '../CSS/Tutors.css';
+import { supabase } from '../Libs/supabaseClient';
 
 export default function Tutors() {
+
+    const [tutors, setTutors] = useState(null);
+
+    useEffect(() => {
+        fetchTutors();
+    }, []);
+
+    async function fetchTutors() {
+        try {
+            let { data: tutors, error } = await supabase
+                .from('tutors')
+                .select('*');
+            console.log(tutors);
+            if (error) {
+                throw error;
+            }
+            setTutors(tutors);
+        } catch (error) {
+            console.error('Error fetching tutors:', error.message);
+        }
+    }
 
 
     return (
@@ -16,28 +38,23 @@ export default function Tutors() {
                             <th>Major</th>
                             <th>Email</th>
                             <th>Pay Rate ($/hour)</th>
+                            <th>Classes</th>
                             <th>Contact</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {/* {tutors.map((tutor, index) => (
+                        {tutors && tutors.map((tutor, index) => (
                             <tr key={index}>
                                 <td>{tutor.name}</td>
-                                <td>{tutor.major}</td>
+                                <td>{tutor.major}</td> {/* Assuming you have a 'major' field in your tutors table */}
                                 <td>{tutor.email}</td>
-                                <td>${tutor.payRate}</td>
+                                <td>{tutor.payRate}</td> {/* Assuming you have a 'pay_rate' field in your tutors table */}
+                                <td>{JSON.parse(tutor.subjectsTaught).join(', ')}</td>
                                 <td>
                                     <Link to="/contact">Message</Link>
                                 </td>
                             </tr>
-                        ))} */}
-                        <td>Tushar</td>
-                        <td>Computer Science</td>
-                        <td>tusha@gmail.com</td>
-                        <td>20</td>
-                        <td>
-                            <Link to="/contact">Message</Link>
-                        </td>
+                        ))}
                     </tbody>
                 </table>
             </div>

@@ -1,6 +1,24 @@
 import React, { useState } from 'react';
-import { Form, redirect, useActionData } from "react-router-dom"
+import { Form } from "react-router-dom"
 import '../CSS/Profile.css';
+import { supabase } from '../Libs/supabaseClient'; // Import supabase client object
+
+let globalSubjectsTaught = [];
+
+// Function to add a subject taught
+const addSubjectTaughtGlobal = (subject) => {
+    if (subject.trim() !== '') {
+        globalSubjectsTaught.push(subject.trim());
+    }
+};
+
+// Function to remove a subject taught
+const removeSubjectTaughtGlobal = (subject) => {
+    const index = globalSubjectsTaught.indexOf(subject);
+    if (index !== -1) {
+        globalSubjectsTaught.splice(index, 1);
+    }
+};
 
 export default function Profile() {
     // State for managing subjects taught
@@ -11,6 +29,7 @@ export default function Profile() {
     const addSubjectTaught = () => {
         if (subjectInput.trim() !== '') {
             setSubjectsTaught([...subjectsTaught, subjectInput.trim()]);
+            addSubjectTaughtGlobal(subjectInput.trim());
             setSubjectInput('');
         }
     };
@@ -18,8 +37,9 @@ export default function Profile() {
     // Function to remove a subject taught
     const removeSubjectTaught = (index) => {
         const updatedSubjectsTaught = [...subjectsTaught];
-        updatedSubjectsTaught.splice(index, 1);
+        const removedSubject = updatedSubjectsTaught.splice(index, 1)[0];
         setSubjectsTaught(updatedSubjectsTaught);
+        removeSubjectTaughtGlobal(removedSubject);
     };
 
     return (
@@ -47,7 +67,7 @@ export default function Profile() {
                     <div>
                         {subjectsTaught.map((subject, index) => (
                             <div key={index}>
-                                {subject} <button type="button" onClick={() => removeSubjectTaught(index)}>Remove</button>
+                                {subject} <button type="button" onClick={() => { removeSubjectTaught(index); }}>Remove</button>
                             </div>
                         ))}
                     </div>
@@ -70,7 +90,6 @@ export default function Profile() {
 }
 
 export const profileInAction = async ({ request }) => {
-    console.log("comes here")
     const data = await request.formData();
 
     // Collecting form data
@@ -79,8 +98,10 @@ export const profileInAction = async ({ request }) => {
     const email = data.get('email');
     const major = data.get('major');
     const payRate = parseFloat(data.get('payRate')); // Parsing pay rate as a number
+    console.log(globalSubjectsTaught)
 
     // Subjects taught are already being collected in the state, so no need to handle here
+    const subjectsTaughtJSON = JSON.stringify(globalSubjectsTaught);
 
     const submission = {
         name,
@@ -88,13 +109,22 @@ export const profileInAction = async ({ request }) => {
         email,
         major,
         payRate,
-        subjectsTaught: Array.from(data.getAll('subjectsTaught[]')) // Collecting multiple subjects as an array
+        subjectsTaught: subjectsTaughtJSON
     };
-    console.log("comes here")
-    console.log(submission);
+
     try {
-        // Here you can further process the form data, such as sending it to a server, etc.
-        // Return success message or any other necessary response
+        // Inserting the user profile data into the 'tutors' table
+        const { data, error } = await supabase
+            .from('tutors')
+            .insert([submission])
+            .select();
+
+        if (error) {
+            console.error('Error inserting user profile:', error.message);
+            return { error: error.message };
+        }
+
+        console.log('User profile inserted successfully:', data);
         return { message: 'Profile submitted successfully!' };
     } catch (error) {
         console.error('Error submitting profile:', error.message);
