@@ -1,0 +1,76 @@
+.dashboard-container {
+    width: 300px;
+    /* Adjust the width as needed */
+    margin: 0 auto;
+    padding: 20px;
+    background-color: black;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    color: orange;
+    /* Set text color to black */
+}
+
+/* Rest of your CSS remains the same */
+
+
+.greeting {
+    margin-bottom: 20px;
+}
+
+.profile-section,
+.messaging-section {
+    margin-bottom: 40px;
+}
+
+.profile-section h2,
+.messaging-section h2 {
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    color: black;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: black;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #000;
+    /* Set text color to black */
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin-bottom: 5px;
+    color: #000;
+    /* Set text color to black */
+}

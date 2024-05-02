@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import { Form } from "react-router-dom"
+import { useParams, useNavigate } from 'react-router-dom';
+
 import '../CSS/Profile.css';
-import { supabase } from '../Libs/supabaseClient'; // Import supabase client object
+import { supabase } from '../Libs/supabaseClient';
+import CryptoJS from 'crypto-js';
+
 
 let globalSubjectsTaught = [];
 
-// Function to add a subject taught
 const addSubjectTaughtGlobal = (subject) => {
     if (subject.trim() !== '') {
         globalSubjectsTaught.push(subject.trim());
     }
 };
 
-// Function to remove a subject taught
 const removeSubjectTaughtGlobal = (subject) => {
     const index = globalSubjectsTaught.indexOf(subject);
     if (index !== -1) {
@@ -20,12 +21,35 @@ const removeSubjectTaughtGlobal = (subject) => {
     }
 };
 
-export default function Profile() {
-    // State for managing subjects taught
+const decrypt = (encryptedData, key) => {
+    try {
+        const bytes = CryptoJS.AES.decrypt(encryptedData, key);
+        const originalData = bytes.toString(CryptoJS.enc.Utf8);
+        return originalData;
+    } catch (error) {
+        console.error('Error decrypting data:', error.message);
+        return null; // Or handle the error appropriately
+    }
+};
+
+export default function Profile({ userId }) {
+    const navigate = useNavigate();
+
+    let decryptedUserId = ""
+
+    if (userId) {
+        // ID is provided
+        decryptedUserId = decrypt(decodeURIComponent(userId), '1234567');
+        // Use decryptedUserId for further processing
+    } else {
+        // ID is not provided, handle accordingly
+        console.log("id not provided from signup/sign-in")
+    }
+
     const [subjectsTaught, setSubjectsTaught] = useState([]);
     const [subjectInput, setSubjectInput] = useState('');
+    const [error, setError] = useState('');
 
-    // Function to add a subject taught
     const addSubjectTaught = () => {
         if (subjectInput.trim() !== '') {
             setSubjectsTaught([...subjectsTaught, subjectInput.trim()]);
@@ -34,7 +58,6 @@ export default function Profile() {
         }
     };
 
-    // Function to remove a subject taught
     const removeSubjectTaught = (index) => {
         const updatedSubjectsTaught = [...subjectsTaught];
         const removedSubject = updatedSubjectsTaught.splice(index, 1)[0];
@@ -42,10 +65,56 @@ export default function Profile() {
         removeSubjectTaughtGlobal(removedSubject);
     };
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const name = formData.get('name');
+        const college = formData.get('college');
+        const email = formData.get('email');
+        const major = formData.get('major');
+        const payRate = parseFloat(formData.get('payRate'));
+
+        const subjectsTaughtJSON = JSON.stringify(globalSubjectsTaught);
+
+        const submission = {
+
+            name,
+            college,
+            email,
+            major,
+            payRate,
+            subjectsTaught: subjectsTaughtJSON,
+            authID: decryptedUserId
+        };
+
+        try {
+            const { data, error } = await supabase
+                .from('tutors')
+                .insert([submission])
+                .select();
+
+            if (error) {
+                console.error('Error inserting user profile:', error.message);
+                setError(error.message);
+            } else {
+                console.log('User profile inserted successfully:', data);
+                // Clear subjects taught after successful submission
+                globalSubjectsTaught = [];
+                setSubjectsTaught([]);
+                setError('');
+                navigate(`/tutors`);
+            }
+        } catch (error) {
+            console.error('Error submitting profile:', error.message);
+            setError(error.message);
+        }
+    };
+
     return (
         <div className="profile-container">
             <h1 className="profile-heading">Create Profile</h1>
-            <Form method="post" action="/profile">
+            <form className="profile-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Name:</label>
                     <input type="text" name="name" />
@@ -84,50 +153,12 @@ export default function Profile() {
                     <input type="number" name="payRate" />
                 </div>
                 <button type="submit">Submit</button>
-            </Form>
+                {error && (
+                    <p style={{ color: '#ff0000', fontFamily: 'Arial, sans-serif', textAlign: 'center' }}>
+                        {error}
+                    </p>
+                )}
+            </form>
         </div>
     );
 }
-
-export const profileInAction = async ({ request }) => {
-    const data = await request.formData();
-
-    // Collecting form data
-    const name = data.get('name');
-    const college = data.get('college');
-    const email = data.get('email');
-    const major = data.get('major');
-    const payRate = parseFloat(data.get('payRate')); // Parsing pay rate as a number
-    console.log(globalSubjectsTaught)
-
-    // Subjects taught are already being collected in the state, so no need to handle here
-    const subjectsTaughtJSON = JSON.stringify(globalSubjectsTaught);
-
-    const submission = {
-        name,
-        college,
-        email,
-        major,
-        payRate,
-        subjectsTaught: subjectsTaughtJSON
-    };
-
-    try {
-        // Inserting the user profile data into the 'tutors' table
-        const { data, error } = await supabase
-            .from('tutors')
-            .insert([submission])
-            .select();
-
-        if (error) {
-            console.error('Error inserting user profile:', error.message);
-            return { error: error.message };
-        }
-
-        console.log('User profile inserted successfully:', data);
-        return { message: 'Profile submitted successfully!' };
-    } catch (error) {
-        console.error('Error submitting profile:', error.message);
-        return { error: error.message };
-    }
-};
