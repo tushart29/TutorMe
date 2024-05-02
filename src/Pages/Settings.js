@@ -5,8 +5,25 @@ import { useNavigate } from 'react-router-dom';
 import '../CSS/Settings.css'
 import CryptoJS from 'crypto-js';
 
+let globalSubjectsTaught = [];
+
+const addSubjectTaughtGlobal = (subject) => {
+    if (subject.trim() !== '') {
+        globalSubjectsTaught.push(subject.trim());
+    }
+};
+
+const removeSubjectTaughtGlobal = (subject) => {
+    const index = globalSubjectsTaught.indexOf(subject);
+    if (index !== -1) {
+        globalSubjectsTaught.splice(index, 1);
+    }
+};
+
 export default function Settings({ userId }) {
     const navigate = useNavigate();
+
+
 
     const decrypt = (encryptedData, key) => {
         try {
@@ -24,7 +41,9 @@ export default function Settings({ userId }) {
     const [email, setEmail] = useState('john.doe@example.com');
     const [major, setMajor] = useState('Computer Science');
     const [payRate, setPayRate] = useState(0);
+    const [subjectInput, setSubjectInput] = useState('');
     const [subjectsTaught, setSubjectsTaught] = useState([]);
+
     let decryptedUserId = ""
 
     // let subjectsTaught = []
@@ -70,7 +89,20 @@ export default function Settings({ userId }) {
             console.error('Error fetching tutors:', error.message);
         }
     }
+    const addSubjectTaught = () => {
+        if (subjectInput.trim() !== '') {
+            setSubjectsTaught([...subjectsTaught, subjectInput.trim()]);
+            addSubjectTaughtGlobal(subjectInput.trim());
+            setSubjectInput('');
+        }
+    };
 
+    const removeSubjectTaught = (index) => {
+        const updatedSubjectsTaught = [...subjectsTaught];
+        const removedSubject = updatedSubjectsTaught.splice(index, 1)[0];
+        setSubjectsTaught(updatedSubjectsTaught);
+        removeSubjectTaughtGlobal(removedSubject);
+    };
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -89,7 +121,8 @@ export default function Settings({ userId }) {
                     email: email,
                     major: major,
                     payRate: payRate,
-                    subjectsTaught: subjectsTaught
+                    subjectsTaught: JSON.stringify(globalSubjectsTaught)
+
                 })
                 .eq('authID', decryptedUserId);
 
@@ -134,6 +167,29 @@ export default function Settings({ userId }) {
                         <label>Pay Rate ($/hour):</label>
                         <input type="number" value={payRate} onChange={(e) => setPayRate(e.target.value)} />
                     </div>
+                    <div className="form-group">
+                        <label>Subjects Taught:</label>
+                        <div>
+                            {subjectsTaught.map((subject, index) => (
+                                <div key={index}>
+                                    {subject}{' '}
+                                    <button type="button" onClick={() => removeSubjectTaught(index)}>
+                                        Remove
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                        <input
+                            type="text"
+                            value={subjectInput}
+                            onChange={(e) => setSubjectInput(e.target.value)}
+                            placeholder="Enter subject"
+                        />
+                        <button type="button" onClick={addSubjectTaught}>
+                            Add Subject
+                        </button>
+                    </div>
+
                     {/* <div className="form-group">
                         <label>Subjects Taught:</label>
                         <ul>

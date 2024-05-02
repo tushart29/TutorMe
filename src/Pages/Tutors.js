@@ -16,7 +16,34 @@ export default function Tutors() {
         try {
             let { data: tutors, error } = await supabase
                 .from('tutors')
-                .select('*');
+                .select('*')
+                .eq('Type', 'Tutor')
+
+
+            // let { data: tutors, error } = await supabase
+            // .from('tutors')
+            // .select("*")
+
+            // // Filters
+            // .eq('column', 'Equal to')
+            // .gt('column', 'Greater than')
+            // .lt('column', 'Less than')
+            // .gte('column', 'Greater than or equal to')
+            // .lte('column', 'Less than or equal to')
+            // .like('column', '%CaseSensitive%')
+            // .ilike('column', '%CaseInsensitive%')
+            // .is('column', null)
+            // .in('column', ['Array', 'Values'])
+            // .neq('column', 'Not equal to')
+
+            // // Arrays
+            // .contains('array_column', ['array', 'contains'])
+            // .containedBy('array_column', ['contained', 'by'])
+
+
+
+            // .not('role', 'eq', 'Student');
+
             if (error) {
                 throw error;
             }

@@ -49,6 +49,8 @@ export default function Profile({ userId }) {
     const [subjectsTaught, setSubjectsTaught] = useState([]);
     const [subjectInput, setSubjectInput] = useState('');
     const [error, setError] = useState('');
+    const [role, setRole] = useState('Tutor'); // Default role is Tutor
+
 
     const addSubjectTaught = () => {
         if (subjectInput.trim() !== '') {
@@ -74,6 +76,8 @@ export default function Profile({ userId }) {
         const email = formData.get('email');
         const major = formData.get('major');
         const payRate = parseFloat(formData.get('payRate'));
+        const Type = role;
+
 
         const subjectsTaughtJSON = JSON.stringify(globalSubjectsTaught);
 
@@ -84,6 +88,7 @@ export default function Profile({ userId }) {
             email,
             major,
             payRate,
+            Type,
             subjectsTaught: subjectsTaughtJSON,
             authID: decryptedUserId
         };
@@ -115,6 +120,13 @@ export default function Profile({ userId }) {
         <div className="profile-container">
             <h1 className="profile-heading">Create Profile</h1>
             <form className="profile-form" onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label>Role:</label>
+                    <select value={role} onChange={(e) => setRole(e.target.value)}>
+                        <option value="Tutor">Tutor</option>
+                        <option value="Student">Student</option>
+                    </select>
+                </div>
                 <div className="form-group">
                     <label>Name:</label>
                     <input type="text" name="name" />
