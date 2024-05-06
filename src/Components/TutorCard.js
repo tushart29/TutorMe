@@ -10,9 +10,7 @@ const TutorCard = ({ name, classes = [], email, payRate }) => {
                 <p><strong>Email:</strong> {email}</p>
                 <p><strong>Pay Rate:</strong> ${payRate}/hour</p>
             </div>
-            <div className="message-me">
-                <Link to="/contact">Message Me</Link>
-            </div>
+
         </div>
     );
 }

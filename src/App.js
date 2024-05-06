@@ -11,6 +11,7 @@ import RootLayout from './Layout/RootLayout';
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer'
 import Settings from './Pages/Settings';
+import Message from './Pages/Message';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -28,6 +29,8 @@ function App() {
           <Route path="signup" element={<Signup setIsLoggedIn={setIsLoggedIn} setUserId={setUserId} />} />
           <Route path="signin" element={<Signin setIsLoggedIn={setIsLoggedIn} setUserId={setUserId} />} />
           <Route path="profile" element={<Profile userId={userId} />} />
+          <Route path="message" element={<Message />} />
+
 
 
           <Route path="*" element={<NotFound />} />

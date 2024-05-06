@@ -5,6 +5,7 @@ import { supabase } from '../Libs/supabaseClient';
 import { useNavigate } from 'react-router-dom';
 
 
+
 function Navbar({ isLoggedIn, setIsLoggedIn }) {
 
     const navigate = useNavigate();

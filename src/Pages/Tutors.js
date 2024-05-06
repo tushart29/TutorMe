@@ -105,7 +105,7 @@ export default function Tutors() {
                         <p><strong>Email:</strong> {tutor.email}</p>
                         <p><strong>Pay Rate ($/hour):</strong> {tutor.payRate}</p>
                         <p><strong>Classes:</strong> {JSON.parse(tutor.subjectsTaught).join(', ')}</p>
-                        <Link to="/contact">Message me</Link>
+                        <Link to="/Message">Message Me</Link>
                     </div>
                 ))}
             </div>
