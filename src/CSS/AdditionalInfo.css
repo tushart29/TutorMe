@@ -1,0 +1,22 @@
+.info-box {
+    background-color: white;
+    width: 500px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    /* Centers horizontally */
+}
+
+.info-container {
+    /* Optional: Add styling for the container of additional information */
+    text-align: center;
+    /* Centers the content inside the container */
+}
+
+.info-container p {
+    margin-bottom: 10px;
+    /* Optional: Add additional styling for each paragraph */
+    text-align: left;
+    /* Aligns paragraphs to the left */
+}

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import '../CSS/Tutors.css';
 import { supabase } from '../Libs/supabaseClient';
 
-export default function Tutors() {
+export default function Tutors({ setUserState, isLoggedIn }) {
     const [tutors, setTutors] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [filterType, setFilterType] = useState('name');
@@ -63,6 +63,11 @@ export default function Tutors() {
         setFilterType(event.target.value);
     }
 
+    function handleSelectTutor(tutor) {
+        setUserState(tutor);
+    }
+
+
     // Filter tutors based on the search query and filter type
     const filteredTutors = tutors ? tutors.filter(tutor => {
         const lowercaseQuery = searchQuery.toLowerCase();
@@ -84,31 +89,42 @@ export default function Tutors() {
         <div>
             <h1 className="tutors-heading">Tutors</h1>
             {/* Search bar */}
-            <input
-                type="text"
-                placeholder="Search"
-                value={searchQuery}
-                onChange={handleSearchInputChange}
-                className="search-bar"
-            />
-            {/* Filter dropdown */}
-            <select value={filterType} onChange={handleFilterTypeChange} className="filter-dropdown">
-                <option value="name">Name</option>
-                <option value="major">Major</option>
-                <option value="classes">Classes</option>
-            </select>
+            {isLoggedIn && (
+                <>
+                    {/* Search bar */}
+                    <input
+                        type="text"
+                        placeholder="Search"
+                        value={searchQuery}
+                        onChange={handleSearchInputChange}
+                        className="search-bar"
+                    />
+                    {/* Filter dropdown */}
+                    <select value={filterType} onChange={handleFilterTypeChange} className="filter-dropdown">
+                        <option value="name">Name</option>
+                        <option value="major">Major</option>
+                        <option value="classes">Classes</option>
+                    </select>
+                </>
+            )}
             <div className="tutor-grid">
                 {filteredTutors.map((tutor, index) => (
-                    <div key={index} className="tutor-card">
+
+                    < div key={index} className="tutor-card" >
+
                         <h2>{tutor.name}</h2>
                         <p><strong>Major:</strong> {tutor.major}</p>
-                        <p><strong>Email:</strong> {tutor.email}</p>
+                        <p><strong>College:</strong> {tutor.college}</p>
+                        {/* <p><strong>Email:</strong> {tutor.email}</p>
                         <p><strong>Pay Rate ($/hour):</strong> {tutor.payRate}</p>
-                        <p><strong>Classes:</strong> {JSON.parse(tutor.subjectsTaught).join(', ')}</p>
-                        <Link to="/Message">Message Me</Link>
+                        <p><strong>Classes:</strong> {JSON.parse(tutor.subjectsTaught).join(', ')}</p> */}
+
+                        <Link to="/additional-info" onClick={() => handleSelectTutor(tutor)}> {isLoggedIn ? "More Info" : "Please log in to view more information"}</Link>
+
                     </div>
-                ))}
-            </div>
-        </div>
+                ))
+                }
+            </div >
+        </div >
     );
 }
