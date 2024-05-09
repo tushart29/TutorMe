@@ -27,9 +27,9 @@ function App() {
         <Routes>
           <Route path="/" element={<About />} />
           <Route path="settings" element={<Settings userId={userId} />} />
-          <Route path="tutors" element={<Tutors setUserState={setUserState} isLoggedIn={isLoggedIn} />} />
+          <Route path="tutors" element={<Tutors setUserState={setUserState} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="signup" element={<Signup setIsLoggedIn={setIsLoggedIn} setUserId={setUserId} />} />
-          <Route path="signin" element={<Signin setIsLoggedIn={setIsLoggedIn} setUserId={setUserId} />} />
+          <Route path="signin" element={<Signin setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} setUserId={setUserId} />} />
           <Route path="profile" element={<Profile userId={userId} />} />
           <Route path="additional-info" element={<AdditionalInfo userState={userState} />} />
 

@@ -5,12 +5,14 @@ import { supabase } from '../Libs/supabaseClient';
 import { useNavigate } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
 
-function SignIn({ setIsLoggedIn, setUserId }) {
+export default function SignIn({ setIsLoggedIn, isLoggedIn, setUserId }) {
     const encrypt = (data, key) => {
         return CryptoJS.AES.encrypt(data, key).toString();
     };
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+
+
     const getSession = async () => {
         try {
             const { data: { session } } = await supabase.auth.getSession();
@@ -60,6 +62,14 @@ function SignIn({ setIsLoggedIn, setUserId }) {
     useEffect(() => {
         setError(null); // Clear error when component mounts or when email/password changes
     }, []);
+    // useEffect(() => {
+    //     window.localStorage.setItem('MY_APP_LOGIN_STATE', JSON.stringify(isLoggedIn));
+    // }, [isLoggedIn]);
+    // useEffect(() => {
+    //     const data = window.localStorage.getItem('MY_APP_LOGIN_STATE');
+    //     console.log(data)
+    //     if (data !== null) setIsLoggedIn(JSON.parse(data));
+    // }, []);
 
     return (
         <div className="signin-page"> {/* Add a container for centering */}
@@ -95,5 +105,3 @@ function SignIn({ setIsLoggedIn, setUserId }) {
         </div>
     );
 }
-
-export default SignIn;

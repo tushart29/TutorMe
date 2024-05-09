@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import '../CSS/Tutors.css';
 import { supabase } from '../Libs/supabaseClient';
 
-export default function Tutors({ setUserState, isLoggedIn }) {
+export default function Tutors({ setUserState, isLoggedIn, setIsLoggedIn }) {
     const [tutors, setTutors] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [filterType, setFilterType] = useState('name');
@@ -11,6 +11,18 @@ export default function Tutors({ setUserState, isLoggedIn }) {
     useEffect(() => {
         fetchTutors();
     }, []);
+    // useEffect(() => {
+    //     window.localStorage.setItem('MY_APP_LOGIN_STATE', JSON.stringify(isLoggedIn));
+    // }, [isLoggedIn]);
+
+    // useEffect(() => {
+    //     const data = window.localStorage.getItem('MY_APP_LOGIN_STATE');
+    //     console.log("Stored value:", data);
+    //     if (data !== null) {
+    //         setIsLoggedIn(JSON.parse(data));
+    //     }
+    // }, []);
+
 
     async function fetchTutors() {
         try {
